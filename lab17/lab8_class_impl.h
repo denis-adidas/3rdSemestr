@@ -17,7 +17,6 @@ Point::Point(int a, int b, int c) {
 bool Point::operator<(Point& p) {
     if (this == &p) return false;
     return this->x < p.x && this->y < p.y && this->z < p.z;
-
 }
 
 //template <typename T>
