@@ -13,6 +13,7 @@ protected:
     int y;
     int z;
 public:
+    Point();
     Point(int a, int b, int c);
     bool operator<(Point& p);
 };
@@ -20,7 +21,7 @@ public:
 
 
 
-template <typename T>
+template <class T>
 class sorted_array {
 protected:
     size_t size;
