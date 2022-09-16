@@ -4,7 +4,11 @@
 
 #include "lab8_class.h"
 
-
+Point::Point() {
+    x = 0;
+    y = 0;
+    z = 0;
+}
 Point::Point(int a, int b, int c) {
     x = a;
     y = b;
@@ -16,22 +20,22 @@ bool Point::operator<(Point& p) {
 
 }
 
-template <typename T>
-int compare(const void* x1, const void* x2) {
-    return (*(T*)x2 < *(T*)x1);
-}
+//template <typename T>
+//int compare(const void* x1, const void* x2) {
+//    return (*(T*)x2 < *(T*)x1);
+//}
 
-template <typename T>
+template <class T>
 sorted_array<T>::sorted_array(size_t i) {
     size = 0;
     capacity = i;
-    data = new T(capacity);
+    data = new T[capacity];
 }
 
-template <typename T>
+template <class T>
 sorted_array<T>::~sorted_array() { delete [] data; }
 
-template <typename T>
+template <class T>
 sorted_array<T>::sorted_array(sorted_array& a) {
     size = a.size;
     capacity = a.capacity;
@@ -42,13 +46,13 @@ sorted_array<T>::sorted_array(sorted_array& a) {
     }
 }
 
-template <typename T>
+template <class T>
 T& sorted_array<T>::operator[](size_t i) {
     return data[i];
 };
 
 //дописать исключения
-template <typename T>
+template <class T>
 T& sorted_array<T>::at(T i) {
     if ((i >= 0) && (i <= size))
         return data[i];
@@ -58,7 +62,7 @@ T& sorted_array<T>::at(T i) {
 }
 
 //дописать исключения
-template <typename T>
+template <class T>
 void sorted_array<T>::erase(size_t i) {
     if ((i > 0) && (i < size)) {
         int j = 0;
@@ -71,19 +75,26 @@ void sorted_array<T>::erase(size_t i) {
 };
 
 //дописать исключения
-template <typename T>
+template <class T>
 void sorted_array<T>::push(T i) {
     if (size < capacity) {
+        int j = 0;
         data[size++] = i;
-        qsort(data, size, sizeof(T), compare<T>);
-        size++;
+        while (data[j] < i) {
+            j++;
+        }
+        int index = j;
+        for (j = size - 1; j > index; j--) {
+            data[j] = data[j-1];
+        }
+        data[index] = i;
     }
     else {
         throw std::invalid_argument("Array full");
     }
 }
 
-template <typename T>
+template <class T>
 void sorted_array<T>::operator=(sorted_array& a) {
     if (&a == *this) return *this;
     delete [] data;
