@@ -5,21 +5,23 @@
 #include "lab8_class_impl.h"
 
 
-
 int main() {
 
-    sorted_array<char> a(10);
-    a.push('c');
-    a.push('a');
-    Point a;
-    try {
-        a.erase(4);
-    }
-    catch(char* err) {
-        std::cout << "error" << std::endl;
-    }
+//    char a = 'a';
+//    char c = 'c';
+//    std::cout << (a < c);
 
-    std::cout << a[2];
+    sorted_array<Point> a(10);
 
 
-}
+//    try {
+//        a.erase(4);
+//    }
+//    catch(char* err) {
+//        std::cout << "error" << std::endl;
+//    }
+//for (int i = 0; i < 10; i++)
+//    std::cout << a[i];
+//
+//
+//}
