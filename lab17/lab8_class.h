@@ -16,6 +16,10 @@ public:
     Point();
     Point(int a, int b, int c);
     bool operator<(Point& p);
+    friend std::ostream& operator <<( std::ostream& os, Point a) {
+        std::cout << a.x << a.y << a.z << std::endl;
+        return os;
+    }
 };
 
 
