@@ -3,16 +3,30 @@
 
 int main() {
 
-      multiset<int> a(10);
-      a.insert(10);
-      a.insert(25);
-      a.insert(6);
-      a.insert(2);
+      std::fstream file;
+      std::string path = "/Users/denis_adidas/CLionProjects/lab18/test.txt";
+      file.open(path);
 
-      std::cout << a;
+      std::string str;
+      char ch;
 
+      while (file.get(ch)) {
+          str.push_back(ch);
+      }
 
+      char* cstr = new char[str.length()+1];
+      std::strcpy (cstr, str.c_str());
 
+      char* token = strtok(cstr, " \n,'?!;:");
+      multiset<std::string> a(" ");
 
+      while (token != NULL)
+      {
+          a.insert(token);
+          token = strtok(NULL, " \n,'?!;:");
+      }
+
+      std::cout << a.get_size();
+      
     return 0;
 }
