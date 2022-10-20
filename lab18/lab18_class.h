@@ -6,6 +6,9 @@
 #define LAB18_LAB18_CLASS_H
 #include "iostream"
 #include "map"
+#include "string"
+#include "fstream"
+#include <sstream>
 
 template <typename T>
 class multiset {
@@ -14,13 +17,15 @@ protected:
     std::map<T, int> data;
 public:
 
+    multiset();
     multiset(T i);
     ~multiset();
-    void insert(int val);
+    void insert(T val);
     int find(int index);
     void erase(int val);
     template <typename U>
     friend std::ostream& operator<< (std::ostream& os, const multiset<U>& a);
+    int get_size();
 
 };
 
