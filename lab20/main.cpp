@@ -16,7 +16,6 @@ int main(int argc, const char * argv[]) {
     
     string s;
     ifstream file("/Users/denis_adidas/XCode project/lab20/lab20/graph_input.txt");
-    ofstream fout("/Users/denis_adidas/XCode project/lab20/lab20/graph_output.txt");
     
     getline(file,s);
     char* cstr = new char[s.length()+1];
@@ -51,13 +50,12 @@ int main(int argc, const char * argv[]) {
     while (start < 5) {
         vector <bool> visited(n);
         dfs(start, visited, graph);
-        fout << "Result for " << start + 1 << ": ";
+        cout << "Result for " << start + 1 << ": ";
         for (int i = start; i < visited.size(); i++)
-            if (visited[i] == true) fout << i + 1 << " ";
-        fout << endl;
+            if (visited[i] == true) cout << i + 1 << " ";
+        cout << endl;
         start++;
     }
     file.close();
-    fout.close();
     return 0;
 }
