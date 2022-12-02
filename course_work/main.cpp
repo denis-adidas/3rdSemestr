@@ -13,10 +13,14 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     string path = "/Users/denis_adidas/XCode project/2course_work_1/2course_work_1/matrix.txt";
 
+    int n;
+//    cout << "Enter a nodes: " << endl;
+//    cin >> n;
     graph a(path);
-    int n = 4;
-    a.solve(0, 0);
-//    a.minimal(n - 1);
+//    a.solve(0, 0);
+//    cout << "Nodes: " << n;
+    a.TSP();
+    a.show_res();
     
     
 //    a.dfs(0, 0);
