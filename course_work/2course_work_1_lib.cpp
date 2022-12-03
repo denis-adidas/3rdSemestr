@@ -6,7 +6,6 @@
 //
 
 #include "2course_work_1_lib.hpp"
-#include "cstdlib"
 
 using namespace std;
 
@@ -35,10 +34,6 @@ graph::graph(string path) {
         }
     }
     file.close();
-    visited.resize(nodes);
-    min_way.resize(nodes);
-    final_result = INT_MAX;
-    distance = 0;
 }
 
 
@@ -49,34 +44,46 @@ int graph::sum() {
     return sum;
 }
 
+void graph::greedy(int source) {
+    
+    visited.resize(nodes);
+    final_path.resize(nodes);
+    final_result = INT_MAX;
+    distance = 0;
+    
+    solve(source, 0);
+    checkResult();
+    
+    cout << source + 1 << " ";
+    for (auto i : final_path) {
+        cout << i + 1 << " ";
+    }
+    cout << endl;
+    cout << "Distance: " << final_result << endl;
+    return;
+}
+
 void graph::solve(int source, int current) {
     
     if ((current == 0) && (sum() == nodes)) {
-        way.push_back(source);
         if (distance < final_result){
             final_result = distance;
             for(int i = 0; i < nodes; i++)
-                min_way[i] = way[i];
-            cout << source + 1 << " ";
-            for (auto i : min_way) {
-                cout << i + 1 << " ";
-            }
-            cout << endl;
-            cout << "Distance: " << final_result << endl;
-            return;
+                final_path[i] = way[i];
+            
         }
     }
-    if (visited[current] == 1) {
-        return;
-    }
-    
-    visited[current] = 1;
-    vector<int> used(nodes);
-    used[current] = 1;
-    
-    
-    for(int i = 0; i < nodes; i++){
-        if(!used[i] && g[current][i]){
+        if (visited[current] == 1) {
+            return;
+        }
+        
+        visited[current] = 1;
+        vector<int> used(nodes);
+        used[current] = 1;
+        
+        
+        for(int i = 0; i < nodes; i++){
+            if(!used[i] && g[current][i]){
                 distance += g[current][i];
                 way.push_back(i);
                 solve(source, i);
@@ -85,6 +92,7 @@ void graph::solve(int source, int current) {
                 used[i] = 0;
             }
         }
-    visited[current] = 0;
-    return;
-}
+        visited[current] = 0;
+        return;
+    }
+
