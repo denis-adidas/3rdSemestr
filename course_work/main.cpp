@@ -11,23 +11,14 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    string path = "/Users/denis_adidas/XCode project/2course_work_1/2course_work_1/matrix.txt";
+    string path = "/Users/denis_adidas/CLionProjects/2courses_work/matrix.txt";
 
-//    int n;
-//    cout << "Enter a nodes: " << endl;
-//    cin >> n;
     graph a(path);
+    graph b(path);
+    a.print_graph();
 
-      a.greedy(0);
-//    a.solve(0, 0);
-//    a.show_res();
-    
-//    a.TSP();
-//    a.checkResult();
-//    a.show_res();
-    
-    
-//    a.dfs(0, 0);
-//    a.ShowGraph();
-    return 0;
+    a.greedy(0);
+
+    b.TSP(0);
+
 }
