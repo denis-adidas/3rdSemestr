@@ -66,10 +66,10 @@ void graph::TSPRec(int current_bound, int current_weight, int level, vector<int>
         int j;
         for (j = 0; j < nodes; j++)
             visitedInPath.push_back(visited[j]);
-            
+
         for (j = 0; j < nodes; j++)
             used.push_back(way[j]);
-            
+
 
         if (g[used[level - 1]][i] > 0 && visitedInPath[i] == 0) {
             int temp = current_bound;
@@ -85,15 +85,16 @@ void graph::TSPRec(int current_bound, int current_weight, int level, vector<int>
                 visitedInPath[i] = 1;
                 TSPRec(current_bound, current_weight, level + 1, used, visitedInPath);
             }
-            
+
             current_weight -= g[used[level - 1]][i];
             current_bound = temp;
         }
     }
 }
 
-void graph::TSP() {
+void graph::TSP(int source) {
 
+    int time = clock();
     int current_bound = 0;
 
     for (int i = 0; i < nodes + 1; i++) way.push_back(-1);
@@ -104,9 +105,36 @@ void graph::TSP() {
     for (i = 0; i < nodes; i++)
         current_bound += (FirstMinInRow(i) + SecondMinInRow(i));
 
-//    current_bound = round(current_bound / 2);
-
     visited[0] = 1;
     way[0] = 0;
-    TSPRec(current_bound, 0, 1, way, visited);
+    TSPRec(current_bound, 0, source + 1, way, visited);
+
+    time = clock() - time;
+
+    int flag = 0;
+    for (int i = final_path.size() - nodes - 1; i < final_path.size(); i++) {
+        if (final_path[i] > 0) flag++;
+    }
+
+    if (flag != nodes - 1) {
+        cout << "Some nodes aren't connected! \nPlease, check source file!" << endl;
+    }
+
+    cout << "Branch and bound's solve of TSP: " << endl;
+    cout << "Way: ";
+    for (int i = final_path.size() - nodes - 1; i < final_path.size(); i++) {
+        cout << final_path[i] + 1 << " ";
+    }
+    cout << endl << "Distance: " << final_result << endl;
+    cout << "Time: " << time << endl;
+
+    ofstream fout("/Users/denis_adidas/CLionProjects/2courses_work/output_BaB.dot");
+    fout << "digraph test { ";
+    fout << source + 1;
+    for (int i = final_path.size() - nodes; i < final_path.size(); i++) {
+        fout << "->" << final_path[i] + 1;
+        fout << endl;
+    }
+    fout << "}";
 }
+
