@@ -6,13 +6,13 @@
 //
 
 #include "2course_work_1_lib.hpp"
+#include "math.h"
 
 
 using namespace std;
 
 void graph::copyToFinal(vector<int>& way) {
-    int i;
-    for (i = 0; i < nodes; i++)
+    for (int i = 0; i < nodes; i++)
         final_path.push_back(way[i]);
     final_path.push_back(way[0]);
 }
@@ -21,7 +21,7 @@ int graph::FirstMinInRow(int i) {
     int min = INT_MAX;
     for (int j = 0; j < nodes; j++)
     {
-        if ((g[i][j] < min) and (i != j)) {
+        if (g[i][j] < min)  {
             min = g[i][j];
         }
     }
@@ -32,9 +32,6 @@ int graph::SecondMinInRow(int i) {
     int first = INT_MAX, second = INT_MAX;
 
     for (int j = 0; j < nodes; j++) {
-        if (i == j) {
-            continue;
-        }
         if (g[i][j] <= first) {
             second = first;
             first = g[i][j];
@@ -48,7 +45,7 @@ int graph::SecondMinInRow(int i) {
 
 void graph::TSPRec(int current_bound, int current_weight, int level, vector<int> way, vector<int> visited) {
     if (level == nodes) {
-        // check if there is an edge from last vertex in path back to the first vertex
+        // проверяем начало ли это
         if (g[way[level - 1]][way[0]] != 0) {
             int curr_res = current_weight + g[way[level - 1]][way[0]];
             if (curr_res < final_result) {
@@ -74,7 +71,7 @@ void graph::TSPRec(int current_bound, int current_weight, int level, vector<int>
         if (g[used[level - 1]][i] > 0 && visitedInPath[i] == 0) {
             int temp = current_bound;
             current_weight += g[used[level - 1]][i];
-
+            //для первого шага, чтобы корректно вычислить первую границу
             if (level == 1)
                 current_bound -= (FirstMinInRow(used[level - 1]) + FirstMinInRow(i));
             else
@@ -86,6 +83,8 @@ void graph::TSPRec(int current_bound, int current_weight, int level, vector<int>
                 TSPRec(current_bound, current_weight, level + 1, used, visitedInPath);
             }
 
+            used[level] = 0;
+            visitedInPath[i] = 0;
             current_weight -= g[used[level - 1]][i];
             current_bound = temp;
         }
@@ -97,13 +96,16 @@ void graph::TSP(int source) {
     int time = clock();
     int current_bound = 0;
 
-    for (int i = 0; i < nodes + 1; i++) way.push_back(-1);
-    for (int i = 0; i < nodes; i++) visited.push_back(0);
+    for (int i = 0; i < nodes + 1; i++)
+        way.push_back(-1);
+    for (int i = 0; i < nodes; i++)
+        visited.push_back(0);
 
 
-    int i;
-    for (i = 0; i < nodes; i++)
+    for (int i = 0; i < nodes; i++)
         current_bound += (FirstMinInRow(i) + SecondMinInRow(i));
+
+    current_bound = round(current_bound / 2);
 
     visited[0] = 1;
     way[0] = 0;
@@ -128,11 +130,11 @@ void graph::TSP(int source) {
     cout << endl << "Distance: " << final_result << endl;
     cout << "Time: " << time << endl;
 
-    ofstream fout("/Users/denis_adidas/CLionProjects/2courses_work/output_BaB.dot");
+    ofstream fout("/Users/denis_adidas/CLionProjects/2courses_work/output_B&B.dot");
     fout << "digraph test { ";
-    fout << source + 1;
+//    fout << source + 1;
     for (int i = final_path.size() - nodes; i < final_path.size(); i++) {
-        fout << "->" << final_path[i] + 1;
+        fout << final_path[i-1] + 1 << "->" << final_path[i] + 1 <<  "[label = " << g[final_path[i - 1]][final_path[i]] << "]" << endl;
         fout << endl;
     }
     fout << "}";
