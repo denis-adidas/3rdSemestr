@@ -12,28 +12,48 @@ using namespace std;
 graph::graph(string path) {
     string s;
     ifstream file(path);
-    getline(file, s);
-    char* cstr = new char[s.length()+1];
-    strcpy(cstr, s.c_str());
 
-
-    char* token = strtok(cstr, " \n");
-    nodes = atoi(token);
-
-    g.resize(nodes);
-
-    int v;
-    for (int i = 0; i < nodes; i++) {
+    if (file.is_open()) {
         getline(file, s);
+        char *cstr = new char[s.length() + 1];
         strcpy(cstr, s.c_str());
-        token = strtok(cstr, " \n");
-        while (token != NULL) {
-            v = atoi(token);
-            g[i].push_back(v);
-            token = strtok(NULL, " \n");
+
+
+        char *token = strtok(cstr, " \n");
+        nodes = atoi(token);
+
+        g.resize(nodes);
+
+        int v;
+        for (int i = 0; i < nodes; i++) {
+            getline(file, s);
+            strcpy(cstr, s.c_str());
+            token = strtok(cstr, " \n");
+            while (token != NULL) {
+                v = atoi(token);
+                g[i].push_back(v);
+                token = strtok(NULL, " \n");
+            }
+        }
+        file.close();
+    }
+    else {
+        throw invalid_argument("This file is not exist");
+    }
+}
+
+void graph::print_graph() {
+    ofstream fout("/Users/denis_adidas/CLionProjects/2courses_work/output.dot");
+    fout << "digraph test { ";
+    for (int i = 0; i < g.size(); i++) {
+        for (int j = 0; j < g[i].size(); j++) {
+            if (g[i][j] > 0) {
+                fout << i + 1;
+                fout << "->"  << j + 1 << "[label = " << g[i][j] << "]"<< endl;
+            }
         }
     }
-    file.close();
+    fout << "}";
 }
 
 
@@ -73,11 +93,11 @@ void graph::greedy(int source) {
     cout << "Distance: " << final_result << endl;
     cout << "Time: " << time << endl;
 
+
     ofstream fout("/Users/denis_adidas/CLionProjects/2courses_work/output_greedy.dot");
     fout << "digraph test { ";
-    fout << source + 1;
     for (int i = 1; i < final_path.size(); i++) {
-        fout << "->" << final_path[i] + 1;
+        fout << final_path[i-1] + 1 << "->" << final_path[i] + 1 <<  "[label = " << g[final_path[i - 1]][final_path[i]] << "]" << endl;
         fout << endl;
     }
     fout << "}";
@@ -86,7 +106,6 @@ void graph::greedy(int source) {
 }
 
 void graph::solve(int source, int current) {
-
 
     if ((current == 0) && (sum() == nodes)) {
         if (distance < final_result){
