@@ -6,12 +6,16 @@
 //
 
 #include "2course_work_1_lib.hpp"
-#include <iostream>
 
 using namespace std;
 
+
+
 int main(int argc, const char * argv[]) {
-    string path = "/Users/denis_adidas/CLionProjects/2courses_work/matrix.txt";
+    string path;
+
+
+    cin >> path;
 
     graph a(path);
     graph b(path);
@@ -21,4 +25,5 @@ int main(int argc, const char * argv[]) {
 
     b.TSP(0);
 
+    return 1;
 }
