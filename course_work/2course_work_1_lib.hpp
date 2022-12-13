@@ -13,8 +13,9 @@
 #include "cstdlib"
 #include "fstream"
 #include "vector"
-#include <sstream>
-#include <algorithm>
+//#include "sstream>
+#include "algorithm"
+
 
 using namespace std;
 
@@ -26,31 +27,17 @@ protected:
     vector<int> final_path;
     int distance, nodes;
     int final_result;
-
 public:
     graph(string path);
     int sum();
     void solve(int source, int current);
-    void copyToFinal(std::vector<int>& way);
+    void copyToFinal(vector<int>& way);
     int FirstMinInRow(int vertex_index);
     int SecondMinInRow(int i);
     void greedy(int source);
-    void TSPRec(int curr_bound, int current_weight, int level, std::vector<int> way, std::vector<int> vis);
+    void TSPRec(int curr_bound, int current_weight, int level, vector<int> way, vector<int> vis);
     void TSP(int source);
-
-    void print_graph() {
-        ofstream fout("/Users/denis_adidas/CLionProjects/2courses_work/output.dot");
-        fout << "digraph test { ";
-        for (int i = 0; i < g.size(); i++) {
-            fout << i + 1;
-            for (int j = 0; j < g[i].size(); j++) {
-                if (g[i][j] > 0)
-                    fout << "->" << j + 1;
-            }
-            fout << endl;
-        }
-        fout << "}";
-    }
+    void print_graph();
 };
 
 #endif /* _course_work_1_lib_hpp */
